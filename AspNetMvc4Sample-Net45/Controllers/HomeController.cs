@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,9 +16,11 @@ namespace AspNetMvc4Sample_Net45.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
+            ViewBag.Message = "";
+            ViewBag.JsonWebToken = ClaimsPrincipal.Current.FindFirst("id_token");
 
             return View();
         }
@@ -27,6 +30,12 @@ namespace AspNetMvc4Sample_Net45.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [Authorize]
+        public ActionResult Foo()
+        {
+            return Json(new { IsAuthenticated = ClaimsPrincipal.Current.Identity.IsAuthenticated }, JsonRequestBehavior.AllowGet);
         }
     }
 }

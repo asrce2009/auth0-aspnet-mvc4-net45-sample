@@ -54,6 +54,8 @@ namespace AspNetMvc4Sample_Net45.Controllers
         {
             WebSecurity.Logout();
 
+            ClaimsCookie.ClaimsCookieModule.Instance.SignOut();
+
             return RedirectToAction("Index", "Home");
         }
 
